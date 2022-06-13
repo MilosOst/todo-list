@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    font-size: 16px;
+    --blue: #199cc7;
+    --grey: rgb(187, 184, 184);
+    --bgColor: #f9f9f9;
+    --project-blue: linear-gradient(135deg, rgb(46, 165, 242) 0%, rgb(110, 210, 255) 100%);
+    --project-orange: #fc9842;
+    --project-redGradient: linear-gradient(315deg, #fc9842 0%, #fe5f75 74%);
+    --project-grey: #b8c6db;
+    --project-greyGradient: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
+}
+
+html, body, .container {
+    height: 100%;
+}
+
+.container {
+    font-family: 'Roboto', sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--bgColor);
+}
+
+/* Make all icons in header clickable */
+.header div {
+    cursor: pointer;
+}
+
+.header img {
+    width: 28px;
+    height: 28px;
+}
+
+#header-logo {
+    color: var(--blue);
+}
+
+/* Non Active Menu */
+.menu {
+    display: none;
+}
+
+.menu.menu-open {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0 1rem 1rem;
+    background-color: var(--bgColor);
+}
+
+.menu-item {
+    width: 60%;
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.projects-scrollbar {
+    display: flex;
+    overflow-x: auto;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.project-entry {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: min(23vw, 100px);
+
+    border-radius: 100%;
+    aspect-ratio: 1;
+    padding: 1rem;
+    border: 4px double gray;
+    cursor: pointer;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 18px;
+}
+
+.project-entry:hover {
+    opacity: 0.9;
+}
+
+.project-entry:nth-child(3n-2) {
+    background: var(--project-blue);
+}
+
+.project-entry:nth-child(3n-1) {
+    background-color: var(--project-orange);
+    background-image: var(--project-redGradient);
+    
+}
+
+.project-entry:nth-child(3n) {
+    background-color: var(--project-grey);
+    background-image: var(--project-greyGradient);
+}
+
+#add-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    background: var(--project-blue);
+    padding: 1rem;
+    width: 75px;
+    height: 75px;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: 0.15s ease-in;
+}
+
+#add-btn:hover {
+    box-shadow: 0 0 15px 6px rgb(9 232 255 / 20%);
+}
+
+.tasks-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+    max-width: 70vw;
+    overflow-wrap: anywhere;
+}
+
+.tasks-header {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.date-header {
+    color: var(--blue);
+}
+
+.tasks-progress {
+    border: 1px solid var(--grey);
+    padding: 4px 12px;
+    border-radius: 24px;
+}
+
+.tasks {
+    list-style: none;
+}
+
+.tasks li {
+    background: url(./imgs/square.svg) no-repeat 0 0;
+    padding-left: 40px;
+    margin: 10px 5px 10px 0;
+    min-height: 24px;
+    line-height: 24px;
+
+}
+
+
+/* Prevent Sticky Hover on Mobile */
+@media (hover: hover) {
+    .menu-item:hover {
+        filter: brightness(90%);
+        background-color:#ececec;
+    }
+}
+
+/* Non-Mobile Devies */
+@media (min-width: 768px) {
+    .projects-scrollbar {
+        justify-content: space-evenly;
+    }
+}
