@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!--Import Fonts from Google-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="menu-toggle">
+                <img src="./imgs/menu.svg" alt="Toggle Menu">
+            </div>
+            <div class="logo">
+                <h1 id="header-logo">Todo List</h1>
+            </div>
+            <div class="edit">
+                <img src="./imgs/edit.svg" alt="Edit">
+            </div>
+        </header>
+        <main class="content">
+            <ul class="menu">
+                <li class="menu-item">Home</li>
+                <li class="menu-item">Notes</li>
+                <li class="menu-item">Clear All</li>
+            </ul>
+            <div class="projects-scrollbar">
+                <div class="project-entry">
+                    <h5 class="project-name">Project 1</h5>
+                </div>
+                <div class="project-entry">
+                    <h5 class="project-name">Project 2</h5>
+                </div>
+                <div class="project-entry">
+                    <h5 class="project-name">Project 3</h5>
+                </div>
+                <div class="project-entry">
+                    <h5 class="project-name">A</h5>
+                </div>
+                <div class="project-entry">
+                    <h5 class="project-name">Project 5</h5>
+                </div>
+            </div>
+            <div class="tasks-section">
+                <div class="today-section">
+                    <div class="tasks-header">
+                        <h2 class="date-header">Today</h2>
+                        <div class="tasks-progress">
+                            <p>0/3</p>
+                        </div>
+                    </div>
+                    <ul class="tasks">
+                        <li>Print Boarding Passes</li>
+                        <li>Water Plants</li>
+                        <li>Pay Rent</li>
+                    </ul>
+                </div>
+                <div class="tomorrow-section">
+                    <div class="tasks-header">
+                        <h2 class="date-header">Tomorrow</h2>
+                        <div class="tasks-progress">
+                            <p>0/2</p>
+                        </div>
+                    </div>
+                    <ul class="tasks">
+                        <li>See Dentist</li>
+                        <li>Walk Dog</li>
+                    </ul>
+                </div>
+                <div class="rest-of-week-section">
+                    <div class="tasks-header">
+                        <h2 class="date-header">Rest of Week</h2>
+                        <div class="tasks-progress">
+                            <p>0/7</p>
+                        </div>
+                    </div>
+                    <ul class="tasks">
+                        <li>Work Out</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+        <button id="add-btn">
+            <img src="./imgs/plus.svg" alt="+">
+        </button>
+    </div>
+
+    <script src="./main.js"></script>
+</body>
+</html>
