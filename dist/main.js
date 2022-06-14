@@ -1,1 +1,1 @@
-document.querySelector(".menu-toggle").addEventListener("click",(()=>{document.querySelector(".menu").classList.toggle("menu-open")}));
+(()=>{"use strict";document.querySelector(".menu-toggle").addEventListener("click",(()=>{document.querySelector(".menu").classList.toggle("menu-open")}))})();
