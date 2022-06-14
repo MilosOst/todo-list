@@ -102,6 +102,42 @@
         <button id="add-btn">
             <img src="./imgs/plus.svg" alt="+">
         </button>
+        <!-- Form Modal Section-->
+        <div class="add-modal">
+            <div class="modal-content">
+                <h2>What would you like to add?</h2>
+                <div class="type-selector">
+                    <h3 id="select-project" class="add-option selected">Project</h3>
+                    <h3 id="select-task" class="add-option">Task</h3>
+                </div>
+                <form action="" class="add-form" id="add-project">
+                    <div class="form-entry">
+                        <label for="project-name">Project Name</label>
+                        <input type="text" id="project-name" class="form-input" minlength="1" maxlength="30" required>
+                    </div>
+                    <button type="submit" class="form-btn">Add</button>
+                </form>
+                <form action="" class="add-form" id="add-task">
+                    <div class="form-entry">
+                        <label for="task-name">Name</label>
+                        <input type="text" id="task-name" class="form-input" minlength="1" maxlength="30" required>
+                    </div>
+                    <div class="form-entry">
+                        <label for="task-description">Description</label>
+                        <textarea class="form-input" name="description-box" id="task-description" cols="30" rows="3" maxlength="150"></textarea>
+                    </div>
+                    <div class="form-entry">
+                        <label for="task-due-date">Due Date</label>
+                        <input type="date" id="task-due-date" class="form-input">
+                    </div>
+                    <div class="form-entry">
+                        <label for="task-priority">Priority</label>
+                        <input type="number" id="task-priority" class="form-input" min="0" max="100">
+                    </div>
+                    <button type="submit" class="form-btn">Add</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script src="./main.js"></script>
