@@ -4,11 +4,9 @@ import Storage from "./Storage.js";
 export default class Display {
 
     static loadHomePage() {
-        const tasksSection = document.createElement('div');
-        tasksSection.classList.add('tasks-section');
+        const tasksSection = document.querySelector('.tasks-section');
         tasksSection.append(Display.createTodaySection(), Display.createTomorrowSection(), Display.createWeeklySection());
 
-        document.body.appendChild(tasksSection);
         this.initFormButtons();
         return tasksSection;
     }
@@ -107,6 +105,16 @@ export default class Display {
 
         selectProject.addEventListener('click', Display.toggleForm);
         selectTask.addEventListener('click', Display.toggleForm);
+
+        const openFormBtn = document.querySelector('#add-btn');
+        openFormBtn.addEventListener('click', () => {
+            document.querySelector('.add-modal').style.display = 'flex';
+        })
+
+        const closeFormBtn = document.querySelector('.close-btn');
+        closeFormBtn.addEventListener('click', () => {
+            document.querySelector('.add-modal').style.display = 'none';
+        })
     }
 
     static toggleForm() {

@@ -171,7 +171,7 @@ html, body, .container {
 }
 
 .add-modal {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -183,6 +183,7 @@ html, body, .container {
 }
 
 .modal-content {
+    position: relative;
     background-color: var(--white);
     padding: 1rem;
     border: 2px solid white;
@@ -238,6 +239,17 @@ html, body, .container {
 /* Set Add Form to be hidden initially */
 #add-task {
     display: none;
+}
+
+.close-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 32px;
+    transform: rotate(45deg);
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
 }
   
 
