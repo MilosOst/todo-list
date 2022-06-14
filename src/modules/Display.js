@@ -9,6 +9,7 @@ export default class Display {
         tasksSection.append(Display.createTodaySection(), Display.createTomorrowSection(), Display.createWeeklySection());
 
         document.body.appendChild(tasksSection);
+        this.initFormButtons();
         return tasksSection;
     }
 
@@ -27,6 +28,7 @@ export default class Display {
         todaySection.appendChild(this.createTodayTasks());
         return todaySection;
     }
+
 
     static createTodayTasks() {
         const todayTasks = Storage.getTodoList().getTodayTasks();
@@ -97,5 +99,31 @@ export default class Display {
             tasksSection.appendChild(li);
         })
         return tasksSection;
+    }
+
+    static initFormButtons() {
+        const selectProject = document.querySelector('#select-project');
+        const selectTask = document.querySelector('#select-task');
+
+        selectProject.addEventListener('click', Display.toggleForm);
+        selectTask.addEventListener('click', Display.toggleForm);
+    }
+
+    static toggleForm() {
+        if (this.classList.contains('selected')) return;
+        
+        // Check which button was clicked
+        if (this.id === 'select-project') {
+            this.classList.add('selected');
+            document.querySelector('#add-project').style.display = 'flex';
+            document.querySelector('#add-task').style.display = 'none';
+            document.querySelector('#select-task').classList.remove('selected');
+        }
+        else if (this.id === 'select-task') {
+            this.classList.add('selected');
+            document.querySelector('#add-task').style.display = 'flex';
+            document.querySelector('#add-project').style.display = 'none';
+            document.querySelector('#select-project').classList.remove('selected');
+        }
     }
 }
