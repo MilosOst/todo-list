@@ -26,13 +26,19 @@ export default class TodoList {
 
     getTodayTasks() {
         const todayTasks = [];
-        this.getProjects().forEach(project => todayTasks.push(project.getTodayTasks()));
+        this.getProjects().forEach(project => todayTasks.push(...project.getTodayTasks()));
         return todayTasks;
+    }
+
+    getTomorrowTasks() {
+        const tomorrowTasks = [];
+        this.getProjects().forEach(project => tomorrowTasks.push(...project.getTomorrowTasks()));
+        return tomorrowTasks;
     }
 
     getWeeklyTasks() {
         const weeklyTasks = [];
-        this.getProjects().forEach(project => weeklyTasks.push(project.getThisWeekTasks()));
+        this.getProjects().forEach(project => weeklyTasks.push(...project.getThisWeekTasks()));
         return weeklyTasks;
     }
 }

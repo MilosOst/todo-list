@@ -1,4 +1,4 @@
-import { isThisWeek, isToday } from "date-fns";
+import { isThisWeek, isToday, isTomorrow } from "date-fns";
 import Todo from "./Todo.js";
 
 export default class Project {
@@ -25,16 +25,17 @@ export default class Project {
     }
 
     getTodayTasks() {
-        return this.tasks.filter(task => {
-            const taskDate = task.getDate();
-            return isToday(taskDate);
-        });
+        return this.tasks.filter(task => isToday(task.getDate()));
+    }
+
+    getTomorrowTasks() {
+        return this.tasks.filter(task => isTomorrow(task.getDate()));
     }
 
     getThisWeekTasks() {
         return this.tasks.filter(task => {
             const taskDate = task.getDate();
-            return isThisWeek(taskDate);
+            return isThisWeek(taskDate) && !isToday(taskDate) && !isTomorrow(taskDate);
         });
     }
 
