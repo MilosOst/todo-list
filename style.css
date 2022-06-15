@@ -225,6 +225,10 @@ html, body, .container {
     width: 70%;
 }
 
+.error-message {
+    color: red;
+}
+
 .form-btn {
     padding: 10px 25px;
     border: none;
