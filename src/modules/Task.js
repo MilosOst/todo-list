@@ -6,6 +6,7 @@ export default class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority ? priority : 0; // Set to 0 if empty string is passed in
+        this.isCompleted = false;
         this.id = uuidv4();
     }
 
@@ -18,5 +19,9 @@ export default class Task {
 
     getDate() {
         return new Date(this.dueDate);
+    }
+
+    getFormattedDate() {
+        return new Date(this.dueDate).toDateString();
     }
 }

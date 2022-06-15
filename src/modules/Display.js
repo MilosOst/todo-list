@@ -1,3 +1,4 @@
+import { isPast, isToday } from "date-fns";
 import Storage from "./Storage.js";
 import Task from "./Task.js";
 
@@ -27,7 +28,8 @@ export default class Display {
         taskSection.append(
             Display.createSection('today', 'Today', Storage.getTodoList().getTodayTasks()),
             Display.createSection('tomorrow', 'Tomorrow', Storage.getTodoList().getTomorrowTasks()),
-            Display.createSection('weekly', 'Rest of Week', Storage.getTodoList().getWeeklyTasks())
+            Display.createSection('weekly', 'Rest of Week', Storage.getTodoList().getWeeklyTasks()),
+            Display.createSection('remaining', 'Remaining', Storage.getTodoList().getRemainingTasks()),
         );
     }
 
@@ -39,7 +41,8 @@ export default class Display {
         taskSection.append(
             Display.createSection('today', 'Today', project.getTodayTasks()),
             Display.createSection('tomorrow', 'Tomorrow', project.getTomorrowTasks()),
-            Display.createSection('weekly', 'Rest of Week', project.getThisWeekTasks())
+            Display.createSection('weekly', 'Rest of Week', project.getThisWeekTasks()),
+            Display.createSection('remaining', 'Remaining', project.getRemainingTasks()),
         );
     }
 
@@ -58,11 +61,13 @@ export default class Display {
     static createSection(name, header, taskList) {
         const section = document.createElement('div');
         section.classList.add(`${name}-section`);
+
+        const tasksDone = taskList.reduce((a, b) => a + b.isCompleted, 0);
         section.innerHTML = `
         <div class="tasks-header">
         <h2 class="date-header">${header}</h2>
             <div class="tasks-progress">
-                <p>0/7</p>
+                <p>${tasksDone}/${taskList.length}</p>
             </div>
         </div>`;
         section.appendChild(Display.createTasks(taskList));
@@ -75,7 +80,21 @@ export default class Display {
 
         taskList.forEach(task => {
             const li = document.createElement('li');
-            li.textContent = task.title;
+            li.innerHTML = `
+            <div class="info">
+                <h5 class='task-name'>${task.title}</h5>
+                <div class='due-date-section'>
+                    <img src='./imgs/calendar.svg'>
+                    <span class='due-date'>${task.getFormattedDate()}</span>
+                </div>
+            </div>
+            <div class='btns'>
+                <img class='edit-btn' src='./imgs/more-horizontal.svg'>
+            </div>
+            `
+            if (isPast(task.getDate()) && !isToday(task.getDate())) {
+                li.querySelector('.due-date').classList.add('expired');
+            }
             li.dataset.id = task.id;
             tasksSection.appendChild(li);
         })

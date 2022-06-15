@@ -45,4 +45,10 @@ export default class TodoList {
         this.getProjects().forEach(project => weeklyTasks.push(...project.getThisWeekTasks()));
         return weeklyTasks;
     }
+
+    getRemainingTasks() {
+        const remainingTasks = [];
+        this.getProjects().forEach(project => remainingTasks.push(...project.getRemainingTasks()));
+        return remainingTasks;
+    }
 }

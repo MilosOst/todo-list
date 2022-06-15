@@ -1,4 +1,4 @@
-import { isThisWeek, isToday, isTomorrow } from "date-fns";
+import { isPast, isThisWeek, isToday, isTomorrow } from "date-fns";
 import Task from "./Task.js";
 
 export default class Project {
@@ -35,8 +35,15 @@ export default class Project {
     getThisWeekTasks() {
         return this.tasks.filter(task => {
             const taskDate = task.getDate();
-            return isThisWeek(taskDate) && !isToday(taskDate) && !isTomorrow(taskDate);
+            return isThisWeek(taskDate) && !(isToday(taskDate) || isTomorrow(taskDate) || isPast(taskDate));
         });
+    }
+
+    getRemainingTasks() {
+        return this.tasks.filter(task => {
+            const taskDate = task.getDate();
+            return (isPast(taskDate) && !isToday(taskDate)) || !(isTomorrow(taskDate) || isThisWeek(taskDate));
+        })
     }
 
     sortTasksByPriority() {
