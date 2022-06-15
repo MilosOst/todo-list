@@ -1,5 +1,5 @@
 import Project from "./Project.js";
-import Todo from "./Todo.js";
+import Task from "./Task.js";
 import TodoList from "./TodoList.js";
 
 export default class Storage {
@@ -20,7 +20,7 @@ export default class Storage {
         // Update TodoList projects to contain actual Todo Objects
         todoList.getProjects().forEach(project => project.setTasks(
             project.getTasks()
-            .map(task => Object.assign(new Todo(), task))
+            .map(task => Object.assign(new Task(), task))
         ));
 
         return todoList;

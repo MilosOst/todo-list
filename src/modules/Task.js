@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 
-export default class Todo {
+export default class Task {
     constructor(title, description, dueDate, priority) {
         this.title = title;
         this.description = description;

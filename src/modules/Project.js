@@ -1,5 +1,5 @@
 import { isThisWeek, isToday, isTomorrow } from "date-fns";
-import Todo from "./Todo.js";
+import Task from "./Task.js";
 
 export default class Project {
     constructor(name) {
@@ -7,12 +7,12 @@ export default class Project {
         this.tasks = []
     }
 
-    addTask(todoObject) {
-        this.tasks.push(todoObject);
+    addTask(task) {
+        this.tasks.push(task);
     }
 
-    removeTask(todoID) {
-        const indexOf = this.tasks.findIndex(task => task.id === todoID);
+    removeTask(taskID) {
+        const indexOf = this.tasks.findIndex(task => task.id === taskID);
         this.tasks.splice(indexOf, 1);
     }
 

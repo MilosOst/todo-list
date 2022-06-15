@@ -1,4 +1,4 @@
-import Todo from "./modules/Todo.js";
+import Task from "./modules/Todo.js";
 import Storage from "./modules/Storage.js";
 import Project from "./modules/Project.js";
 import Display from "./modules/Display.js";

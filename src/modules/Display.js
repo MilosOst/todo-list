@@ -1,5 +1,5 @@
 import Storage from "./Storage.js";
-import Todo from "./Todo.js";
+import Task from "./Task.js";
 
 
 export default class Display {
@@ -184,7 +184,7 @@ export default class Display {
     }
 
     static createTaskFromForm() {
-        return new Todo(
+        return new Task(
             document.querySelector('#task-name').value,
             document.querySelector('#task-description').value,
             new Date(document.querySelector('#task-due-date').value + 'T00:00:00'),
