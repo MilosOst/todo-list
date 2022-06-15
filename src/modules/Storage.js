@@ -45,6 +45,18 @@ export default class Storage {
         Storage.updateTodoList(todoList);
     }
 
+    static editTask(taskId, newInfo) {
+        const todoList = Storage.getTodoList();
+        const task = todoList.getTask(taskId);
+        task.updateInfo(...newInfo);
+        Storage.updateTodoList(todoList);
+    }
+
+    static getTask(taskId) {
+        const todoList = Storage.getTodoList();
+        return todoList.getTask(taskId);
+    }
+
     static removeTask(taskId, projectName) {
         const todoList = Storage.getTodoList();
         const project = todoList.getProject(projectName);

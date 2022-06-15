@@ -28,6 +28,14 @@ export default class TodoList {
         return this.projects.some(project => project.name.toLowerCase() === name.toLowerCase());
     }
 
+    getTask(taskId) {
+        for (let project of this.getProjects()) {
+            for (let task of project.getTasks()) {
+                if (task.id === taskId) return task;
+            }
+        }
+    }
+
     getTodayTasks() {
         const todayTasks = [];
         this.getProjects().forEach(project => todayTasks.push(...project.getTodayTasks()));

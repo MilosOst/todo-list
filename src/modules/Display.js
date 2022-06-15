@@ -80,28 +80,35 @@ export default class Display {
 
         taskList.forEach(task => {
             const li = document.createElement('li');
+            if (task.isCompleted) li.classList.add('completed');
             li.innerHTML = `
             <div class="info">
                 <h5 class='task-name'>${task.title}</h5>
                 <div class='due-date-section'>
-                    <img src='./imgs/calendar.svg'>
+                    <img src='./imgs/calendar.svg' alt='Calendar Icon'>
                     <span class='due-date'>${task.getFormattedDate()}</span>
                 </div>
             </div>
             <div class='btns'>
-                <img class='edit-btn' src='./imgs/more-horizontal.svg'>
+                <img class='edit-btn' src='./imgs/more-horizontal.svg' alt='More Options'>
             </div>
             `
             if (isPast(task.getDate()) && !isToday(task.getDate())) {
                 li.querySelector('.due-date').classList.add('expired');
             }
             li.dataset.id = task.id;
+            li.querySelector('.edit-btn').addEventListener('click', Display.openEditForm);
             tasksSection.appendChild(li);
         })
         return tasksSection;
     }
 
     static initFormButtons() {
+        Display.initAddFormButtons();
+        Display.initEditFormButtons();
+    }
+
+    static initAddFormButtons() {
         const selectProject = document.querySelector('#select-project');
         const selectTask = document.querySelector('#select-task');
 
@@ -114,8 +121,8 @@ export default class Display {
             document.querySelector('.add-modal').style.display = 'flex';
         });
 
-        const closeFormBtn = document.querySelector('.close-btn');
-        closeFormBtn.addEventListener('click', () => {
+        const closeAddFormBtn = document.querySelector('#close-add');
+        closeAddFormBtn.addEventListener('click', () => {
             document.querySelector('.add-modal').style.display = 'none';
         });
 
@@ -124,6 +131,14 @@ export default class Display {
 
         const addTaskForm = document.querySelector('#add-task');
         addTaskForm.onsubmit = Display.handleTaskFormSubmit;
+    }
+
+    static initEditFormButtons() {
+        const closeEditFormBtn = document.querySelector('#close-edit');
+        closeEditFormBtn.addEventListener('click', Display.closeEditForm);
+
+        const editTaskForm = document.querySelector('#edit-task');
+        editTaskForm.onsubmit = Display.handleEditFormSubmit;
     }
 
     static initMenuButtons() {
@@ -189,7 +204,27 @@ export default class Display {
         // Check which project is currently active
         const currProject = document.querySelector('.tasks-section').dataset.project;
         currProject === 'home' ? Display.loadHomePageTasks() : Display.loadProject(currProject);
+    }
 
+    static handleEditFormSubmit(e) {
+        e.preventDefault();
+        const taskId = e.target.dataset.task;
+        Storage.editTask(taskId, Display.getEditFormData());
+
+        // Check which project is currently active
+        const currProject = document.querySelector('.tasks-section').dataset.project;
+        currProject === 'home' ? Display.loadHomePageTasks() : Display.loadProject(currProject);
+        Display.closeEditForm();
+    }
+
+    static getEditFormData() {
+        const name = document.querySelector('#edit-task-name').value;
+        const description = document.querySelector('#edit-task-description').value;
+        const dueDate = document.querySelector('#edit-task-due-date').value + 'T00:00:00';
+        const priority = document.querySelector('#edit-task-priority').value;
+        const isComplete = document.querySelector('#task-completed').checked;
+
+        return [name, description, dueDate, priority, isComplete];
     }
 
     static cleanAddForm() {
@@ -211,5 +246,30 @@ export default class Display {
         );
     }
 
+    static openEditForm(e) {
+        document.querySelector('.edit-modal').style.display = 'flex';
+        const taskId = e.target.parentElement.parentElement.dataset.id;
+        document.querySelector('#edit-task').dataset.task = taskId;
+        const task = Storage.getTask(taskId);
+        Display.loadEditFormData(task);
+    }
 
+    static closeEditForm() {
+        document.querySelector('.edit-modal').style.display = 'none';
+        document.querySelector('#edit-task').dataset.task = '';
+    }
+
+    static loadEditFormData(task) {
+        const nameField = document.querySelector('#edit-task-name');
+        const descriptionField = document.querySelector('#edit-task-description');
+        const dateField = document.querySelector('#edit-task-due-date');
+        const priorityField = document.querySelector('#edit-task-priority');
+        const completedField = document.querySelector('#task-completed');
+
+        nameField.value = task.title;
+        descriptionField.value = task.description;
+        dateField.value = task.getFormFormatDate();
+        priorityField.value = task.priority;
+        completedField.checked = task.isCompleted;
+    }
 }

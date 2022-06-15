@@ -10,11 +10,12 @@ export default class Task {
         this.id = uuidv4();
     }
 
-    updateInfo(title, description, dueDate, priority) {
+    updateInfo(title, description, dueDate, priority, isCompleted) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.isCompleted = isCompleted;
     }
 
     getDate() {
@@ -23,5 +24,9 @@ export default class Task {
 
     getFormattedDate() {
         return new Date(this.dueDate).toDateString();
+    }
+
+    getFormFormatDate() {
+        return this.getDate().toISOString().split('T')[0];
     }
 }
