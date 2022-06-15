@@ -5,7 +5,7 @@ export default class Todo {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
-        this.priority = priority;
+        this.priority = priority ? priority : 0; // Set to 0 if empty string is passed in
         this.id = uuidv4();
     }
 

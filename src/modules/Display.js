@@ -1,16 +1,13 @@
 import Storage from "./Storage.js";
+import Todo from "./Todo.js";
 
 
 export default class Display {
 
     static loadHomePage() {
         Display.loadProjects();
-
-        const tasksSection = document.querySelector('.tasks-section');
-        tasksSection.append(Display.createTodaySection(), Display.createTomorrowSection(), Display.createWeeklySection());
-
-        this.initFormButtons();
-        return tasksSection;
+        Display.loadHomePageTasks();
+        Display.initFormButtons();
     }
 
     static loadProjects() {
@@ -22,6 +19,16 @@ export default class Display {
         });
     }
 
+    static loadHomePageTasks() {
+        const taskSection = document.querySelector('.tasks-section');
+        taskSection.textContent = '';
+        taskSection.append(
+            Display.createSection('today', 'Today', Storage.getTodoList().getTodayTasks()),
+            Display.createSection('tomorrow', 'Tomorrow', Storage.getTodoList().getTomorrowTasks()),
+            Display.createSection('weekly', 'Rest of Week', Storage.getTodoList().getWeeklyTasks())
+        );
+    }
+
     static createProject(project) {
         const projectElement = document.createElement('div');
         projectElement.classList.add('project-entry');
@@ -29,89 +36,28 @@ export default class Display {
         return projectElement;
     }
 
-    static createTodaySection() {
-        const todaySection = document.createElement('div');
-        todaySection.classList.add('today-section');
-        todaySection.innerHTML = `
+    static createSection(name, header, taskList) {
+        const section = document.createElement('div');
+        section.classList.add(`${name}-section`);
+        section.innerHTML = `
         <div class="tasks-header">
-            <h2 class="date-header">Today</h2>
-            <div class="tasks-progress">
-                <p>0/3</p>
-            </div>
-        </div>
-        `;
-
-        todaySection.appendChild(this.createTodayTasks());
-        return todaySection;
-    }
-
-
-    static createTodayTasks() {
-        const todayTasks = Storage.getTodoList().getTodayTasks();
-        const tasksSection = document.createElement('ul');
-        tasksSection.classList.add('tasks');
-
-        todayTasks.forEach(task => {
-            const li = document.createElement('li');
-            li.textContent = task.title;
-            tasksSection.appendChild(li);
-        })
-        return tasksSection;
-    }
-
-    static createTomorrowSection() {
-        const tomorrowSection = document.createElement('div');
-        tomorrowSection.classList.add('tomorrow-section');
-        tomorrowSection.innerHTML = `
-        <div class="tasks-header">
-            <h2 class="date-header">Tomorrow</h2>
-            <div class="tasks-progress">
-                <p>0/3</p>
-            </div>
-        </div>
-        `;
-        
-        tomorrowSection.appendChild(this.createTomorrowTasks());
-        return tomorrowSection;
-        
-    }
-
-    static createTomorrowTasks() {
-        const tomorrowTasks = Storage.getTodoList().getTomorrowTasks();
-        const tasksSection = document.createElement('ul');
-        tasksSection.classList.add('tasks');
-
-        tomorrowTasks.forEach(task => {
-            const li = document.createElement('li');
-            li.textContent = task.title;
-            tasksSection.appendChild(li);
-        })
-        return tasksSection;
-    }
-
-    static createWeeklySection() {
-        const weeklySection = document.createElement('div');
-        weeklySection.classList.add('weekly-section');
-        weeklySection.innerHTML = `
-        <div class="tasks-header">
-        <h2 class="date-header">Rest of Week</h2>
+        <h2 class="date-header">${header}</h2>
             <div class="tasks-progress">
                 <p>0/7</p>
             </div>
         </div>`;
-
-        weeklySection.appendChild(this.createWeeklyTasks());
-        return weeklySection;
+        section.appendChild(Display.createTasks(taskList));
+        return section;
     }
 
-    static createWeeklyTasks() {
-        const weeklyTasks = Storage.getTodoList().getWeeklyTasks();
+    static createTasks(taskList) {
         const tasksSection = document.createElement('ul');
         tasksSection.classList.add('tasks');
 
-        weeklyTasks.forEach(task => {
+        taskList.forEach(task => {
             const li = document.createElement('li');
             li.textContent = task.title;
+            li.dataset.id = task.id;
             tasksSection.appendChild(li);
         })
         return tasksSection;
@@ -137,6 +83,9 @@ export default class Display {
 
         const addProjectForm = document.querySelector('#add-project');
         addProjectForm.onsubmit = Display.handleProjectFormSubmit;
+
+        const addTaskForm = document.querySelector('#add-task');
+        addTaskForm.onsubmit = Display.handleTaskFormSubmit;
     }
 
     static toggleForm() {
@@ -186,6 +135,16 @@ export default class Display {
         }
     }
 
+    static handleTaskFormSubmit(e) {
+        e.preventDefault();
+        const task = Display.createTaskFromForm();
+        const projectName = document.querySelector('#project-select').value;
+        Storage.addTask(task, projectName);
+        Display.cleanAddForm();
+        document.querySelector('.add-modal').style.display = 'none';
+        Display.loadHomePage();
+    }
+
     static cleanAddForm() {
         const projectForm = document.querySelector('#add-project');
         const taskForm = document.querySelector('#add-task');
@@ -194,6 +153,15 @@ export default class Display {
 
         const errorMessages = document.querySelectorAll('.error-message');
         errorMessages.forEach(errMsg => errMsg.textContent = '');
+    }
+
+    static createTaskFromForm() {
+        return new Todo(
+            document.querySelector('#task-name').value,
+            document.querySelector('#task-description').value,
+            new Date(document.querySelector('#task-due-date').value + 'T00:00:00'),
+            document.querySelector('#task-priority').value,
+        );
     }
 
 

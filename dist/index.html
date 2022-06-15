@@ -50,7 +50,7 @@
                     <h3 id="select-project" class="add-option selected">Project</h3>
                     <h3 id="select-task" class="add-option">Task</h3>
                 </div>
-                <form action="" class="add-form" id="add-project">
+                <form action="" id="add-project" class="add-form" >
                     <div class="form-entry">
                         <label for="project-name">Project Name</label>
                         <input type="text" id="project-name" class="form-input" minlength="1" maxlength="30" required>
@@ -59,10 +59,10 @@
                     <button type="submit" class="form-btn">Add</button>
                 </form>
 
-                <form action="" class="add-form" id="add-task">
+                <form action="" id="add-task" class="add-form" >
                     <div class="form-entry">
                         <label for="project">Project</label>
-                        <select name="project-select" id="project-select" required>
+                        <select name="project-select" id="project-select" class="form-input" required>
                             
                         </select>
                     </div>
@@ -76,7 +76,7 @@
                     </div>
                     <div class="form-entry">
                         <label for="task-due-date">Due Date</label>
-                        <input type="date" id="task-due-date" class="form-input">
+                        <input type="date" id="task-due-date" class="form-input" required>
                     </div>
                     <div class="form-entry">
                         <label for="task-priority">Priority</label>
