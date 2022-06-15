@@ -96,6 +96,10 @@ html, body, .container {
     font-size: 18px;
 }
 
+.project-name {
+    pointer-events: none;
+}
+
 .project-entry:hover {
     opacity: 0.9;
 }
