@@ -24,6 +24,10 @@ export default class TodoList {
         this.projects.splice(indexOf, 1);
     }
 
+    projectNameTaken(name) {
+        return this.projects.some(project => project.name.toLowerCase() === name.toLowerCase());
+    }
+
     getTodayTasks() {
         const todayTasks = [];
         this.getProjects().forEach(project => todayTasks.push(...project.getTodayTasks()));

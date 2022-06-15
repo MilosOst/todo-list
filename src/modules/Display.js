@@ -4,11 +4,29 @@ import Storage from "./Storage.js";
 export default class Display {
 
     static loadHomePage() {
+        Display.loadProjects();
+
         const tasksSection = document.querySelector('.tasks-section');
         tasksSection.append(Display.createTodaySection(), Display.createTomorrowSection(), Display.createWeeklySection());
 
         this.initFormButtons();
         return tasksSection;
+    }
+
+    static loadProjects() {
+        const projectsBar = document.querySelector('.projects-scrollbar');
+        projectsBar.textContent = '';
+        const projects = Storage.getTodoList().getProjects();
+        projects.forEach(project => {
+            projectsBar.appendChild(Display.createProject(project))
+        });
+    }
+
+    static createProject(project) {
+        const projectElement = document.createElement('div');
+        projectElement.classList.add('project-entry');
+        projectElement.innerHTML = `<h5 class='project-name'>${project.name}</h5>`;
+        return projectElement;
     }
 
     static createTodaySection() {
@@ -108,13 +126,17 @@ export default class Display {
 
         const openFormBtn = document.querySelector('#add-btn');
         openFormBtn.addEventListener('click', () => {
+            Display.loadFormInfo();
             document.querySelector('.add-modal').style.display = 'flex';
-        })
+        });
 
         const closeFormBtn = document.querySelector('.close-btn');
         closeFormBtn.addEventListener('click', () => {
             document.querySelector('.add-modal').style.display = 'none';
-        })
+        });
+
+        const addProjectForm = document.querySelector('#add-project');
+        addProjectForm.onsubmit = Display.handleProjectFormSubmit;
     }
 
     static toggleForm() {
@@ -134,4 +156,45 @@ export default class Display {
             document.querySelector('#select-project').classList.remove('selected');
         }
     }
+
+    static loadFormInfo() {
+        const projects = Storage.getTodoList().getProjects();
+        const projectSelection = document.querySelector('#project-select');
+        
+        // Reset choices and get updated info
+        projectSelection.textContent = '';
+        projects.forEach(project => {
+            const option = document.createElement('option');
+            option.value = project.name;
+            option.textContent = project.name;
+            projectSelection.appendChild(option);
+        });
+    }
+
+    static handleProjectFormSubmit(e) {
+        e.preventDefault();
+        const givenName = e.target.querySelector('#project-name').value;
+        if (Storage.getTodoList().projectNameTaken(givenName)) {
+            const error = document.querySelector('#project-name-error');
+            error.textContent = 'Project name is already in use.';
+        }
+        else {
+            Storage.addProject(givenName);
+            Display.cleanAddForm();
+            document.querySelector('.add-modal').style.display = 'none';
+            Display.loadProjects();
+        }
+    }
+
+    static cleanAddForm() {
+        const projectForm = document.querySelector('#add-project');
+        const taskForm = document.querySelector('#add-task');
+        projectForm.reset();
+        taskForm.reset();
+
+        const errorMessages = document.querySelectorAll('.error-message');
+        errorMessages.forEach(errMsg => errMsg.textContent = '');
+    }
+
+
 }
