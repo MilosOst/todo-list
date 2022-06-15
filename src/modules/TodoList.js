@@ -4,7 +4,7 @@ export default class TodoList {
     }
 
     getProject(projectName) {
-        return this.projects.find(project => project.name === project.name);
+        return this.projects.find(project => project.name === projectName);
     }
 
     getProjects() {

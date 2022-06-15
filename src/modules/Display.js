@@ -7,6 +7,7 @@ export default class Display {
     static loadHomePage() {
         Display.loadProjects();
         Display.loadHomePageTasks();
+        Display.initMenuButtons();
         Display.initFormButtons();
     }
 
@@ -21,6 +22,7 @@ export default class Display {
 
     static loadHomePageTasks() {
         const taskSection = document.querySelector('.tasks-section');
+        taskSection.dataset.project = 'home';
         taskSection.textContent = '';
         taskSection.append(
             Display.createSection('today', 'Today', Storage.getTodoList().getTodayTasks()),
@@ -29,10 +31,27 @@ export default class Display {
         );
     }
 
+    static loadProject(projectName) {
+        const project = Storage.getTodoList().getProject(projectName);
+        const taskSection = document.querySelector('.tasks-section');
+        taskSection.dataset.project = projectName;
+        taskSection.textContent = '';
+        taskSection.append(
+            Display.createSection('today', 'Today', project.getTodayTasks()),
+            Display.createSection('tomorrow', 'Tomorrow', project.getTomorrowTasks()),
+            Display.createSection('weekly', 'Rest of Week', project.getThisWeekTasks())
+        );
+    }
+
     static createProject(project) {
         const projectElement = document.createElement('div');
         projectElement.classList.add('project-entry');
+        projectElement.dataset.name = project.name;
         projectElement.innerHTML = `<h5 class='project-name'>${project.name}</h5>`;
+        projectElement.addEventListener('click', (e) => {
+            const projectName = e.target.dataset.name;
+            Display.loadProject(projectName);
+        });
         return projectElement;
     }
 
@@ -86,6 +105,11 @@ export default class Display {
 
         const addTaskForm = document.querySelector('#add-task');
         addTaskForm.onsubmit = Display.handleTaskFormSubmit;
+    }
+
+    static initMenuButtons() {
+        const homeBtn = document.querySelector('#home-btn');
+        homeBtn.addEventListener('click', Display.loadHomePageTasks);
     }
 
     static toggleForm() {
@@ -142,7 +166,11 @@ export default class Display {
         Storage.addTask(task, projectName);
         Display.cleanAddForm();
         document.querySelector('.add-modal').style.display = 'none';
-        Display.loadHomePage();
+
+        // Check which project is currently active
+        const currProject = document.querySelector('.tasks-section').dataset.project;
+        currProject === 'home' ? Display.loadHomePageTasks() : Display.loadProject(currProject);
+
     }
 
     static cleanAddForm() {
