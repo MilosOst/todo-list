@@ -11,6 +11,10 @@ export default class Project {
         this.tasks.push(task);
     }
 
+    hasTask(taskId) {
+        return this.tasks.find(task => task.id === taskId);
+    }
+
     removeTask(taskID) {
         const indexOf = this.tasks.findIndex(task => task.id === taskID);
         this.tasks.splice(indexOf, 1);

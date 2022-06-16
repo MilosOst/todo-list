@@ -52,6 +52,12 @@ export default class Storage {
         Storage.updateTodoList(todoList);
     }
 
+    static deleteTask(taskId) {
+        const todoList = Storage.getTodoList();
+        todoList.deleteTask(taskId);
+        Storage.updateTodoList(todoList);
+    }
+
     static getTask(taskId) {
         const todoList = Storage.getTodoList();
         return todoList.getTask(taskId);
@@ -62,5 +68,9 @@ export default class Storage {
         const project = todoList.getProject(projectName);
         project.removeTask(taskId);
         Storage.updateTodoList(todoList);
+    }
+
+    static clearStorage() {
+        localStorage.clear();
     }
 }

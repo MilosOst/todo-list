@@ -47,6 +47,15 @@ export default class Display {
     }
 
     static createProject(project) {
+        const projectContainer = document.createElement('div');
+        projectContainer.classList.add('project-container');
+
+        const delBtn = document.createElement('img');
+        delBtn.src = './imgs/x.svg';
+        delBtn.alt = 'Delete';
+        delBtn.classList.add('del-project');
+        delBtn.addEventListener('click', Display.removeProject);
+
         const projectElement = document.createElement('div');
         projectElement.classList.add('project-entry');
         projectElement.dataset.name = project.name;
@@ -55,7 +64,9 @@ export default class Display {
             const projectName = e.target.dataset.name;
             Display.loadProject(projectName);
         });
-        return projectElement;
+
+        projectContainer.append(projectElement, delBtn)
+        return projectContainer;
     }
 
     static createSection(name, header, taskList) {
@@ -91,6 +102,7 @@ export default class Display {
             </div>
             <div class='btns'>
                 <img class='edit-btn' src='./imgs/more-horizontal.svg' alt='More Options'>
+                <img class='del-btn' src='./imgs/x.svg' alt='Delete'>
             </div>
             `
             if (isPast(task.getDate()) && !isToday(task.getDate())) {
@@ -98,6 +110,7 @@ export default class Display {
             }
             li.dataset.id = task.id;
             li.querySelector('.edit-btn').addEventListener('click', Display.openEditForm);
+            li.querySelector('.del-btn').addEventListener('click', Display.removeTask);
             tasksSection.appendChild(li);
         })
         return tasksSection;
@@ -142,8 +155,26 @@ export default class Display {
     }
 
     static initMenuButtons() {
+        const toggleMenu = document.querySelector('.menu-toggle');
+        toggleMenu.addEventListener('click', () => {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('menu-open');
+        });
+
+        const editBtn = document.querySelector('.edit');
+        editBtn.addEventListener('click', () => {
+            const delTaskBtns = document.querySelectorAll('.del-btn');
+            delTaskBtns.forEach(btn => btn.classList.toggle('active'));
+
+            const delProjectBtns = document.querySelectorAll('.del-project');
+            delProjectBtns.forEach(btn => btn.classList.toggle('active'));
+        });
+
         const homeBtn = document.querySelector('#home-btn');
         homeBtn.addEventListener('click', Display.loadHomePageTasks);
+
+        const clearBtn = document.querySelector('#clear-btn');
+        clearBtn.addEventListener('click', Display.clear);
     }
 
     static toggleForm() {
@@ -271,5 +302,25 @@ export default class Display {
         dateField.value = task.getFormFormatDate();
         priorityField.value = task.priority;
         completedField.checked = task.isCompleted;
+    }
+
+    static removeTask(e) {
+        const taskId = e.target.parentElement.parentElement.dataset.id;
+        Storage.deleteTask(taskId);
+        const currProject = document.querySelector('.tasks-section').dataset.project;
+        currProject === 'home' ? Display.loadHomePageTasks() : Display.loadProject(currProject);
+    }
+
+    static removeProject(e) {
+        const projectName = e.target.previousSibling.dataset.name;
+        Storage.removeProject(projectName);
+        Display.loadProjects();
+        Display.loadHomePageTasks();
+        
+    }
+
+    static clear() {
+        Storage.clearStorage();
+        Display.loadHomePage();
     }
 }

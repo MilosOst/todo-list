@@ -48,6 +48,7 @@ html, body, .container {
 
 #header-logo {
     color: var(--blue);
+    cursor: initial;
 }
 
 /* Non Active Menu */
@@ -78,6 +79,7 @@ html, body, .container {
 .projects-scrollbar {
     display: flex;
     overflow-x: auto;
+    text-align: center;
     padding: 1rem;
     gap: 1rem;
 }
@@ -106,19 +108,27 @@ html, body, .container {
     opacity: 0.9;
 }
 
-.project-entry:nth-child(3n-2) {
+.project-container:nth-child(3n-2) > .project-entry {
     background: var(--project-blue);
 }
 
-.project-entry:nth-child(3n-1) {
+.project-container:nth-child(3n-1) > .project-entry{
     background-color: var(--project-orange);
     background-image: var(--project-redGradient);
     
 }
 
-.project-entry:nth-child(3n) {
+.project-container:nth-child(3n) > .project-entry{
     background-color: var(--project-grey);
     background-image: var(--project-greyGradient);
+}
+
+.del-project {
+    display: none;
+    margin-top: 8px;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
 }
 
 #add-btn {
@@ -144,7 +154,7 @@ html, body, .container {
     flex-direction: column;
     gap: 1.5rem;
     padding: 1rem;
-    max-width: 70vw;
+    max-width: 75vw;
     overflow-wrap: anywhere;
 }
 
@@ -162,6 +172,10 @@ html, body, .container {
     border: 1px solid var(--grey);
     padding: 4px 12px;
     border-radius: 24px;
+}
+
+.tasks-progress p {
+    width: max-content;
 }
 
 .tasks {
@@ -203,6 +217,16 @@ html, body, .container {
 
 .edit-btn {
     cursor: pointer;
+    margin-right: 8px;
+}
+
+.del-btn {
+    display: none;
+    cursor: pointer;
+}
+
+.active {
+    display: inline-block;
 }
 
 .add-modal {

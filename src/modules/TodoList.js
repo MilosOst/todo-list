@@ -19,6 +19,14 @@ export default class TodoList {
         this.projects.push(project);
     }
 
+    deleteTask(taskId) {
+        for (let project of this.getProjects()) {
+            if (project.hasTask(taskId)) {
+                project.removeTask(taskId);
+            }
+        }
+    }
+
     removeProject(projectName) {
         const indexOf = this.projects.findIndex(project => project.name === projectName);
         this.projects.splice(indexOf, 1);
