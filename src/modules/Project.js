@@ -48,10 +48,5 @@ export default class Project {
             const taskDate = task.getDate();
             return (isPast(taskDate) && !isToday(taskDate)) || !(isTomorrow(taskDate) || isThisWeek(taskDate));
         })
-    }
-
-    sortTasksByPriority() {
-        this.tasks.sort((a, b) => a.priority < b.priority ? 1 : -1);
-    }
-        
+    }  
 }
